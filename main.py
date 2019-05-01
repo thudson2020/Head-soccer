@@ -1,13 +1,17 @@
 import pygame, sys, time, random
 from pygame.locals import *
-from kirby_user import kirby_user
+from user import user
+from goals import goals
 DISPLAYSURF = pygame.display.set_mode((1000,500), 0, 32)
-pygame.display.set_caption("kirbo")
+pygame.display.set_caption("ball")
 ground=350
 BLACK=(0,0,0)
+WHITE=(255,255,255)
 FPS=30
 fpsClock = pygame.time.Clock()
-user=kirby_user(ground)
+user=user(ground)
+user_goal=goals(ground,0,0)
+o_goal=goals(ground,950,1)
 def update(x):
     DISPLAYSURF.blit(x.image,x.rect)
 move_up=False
@@ -17,6 +21,7 @@ move_right=False
 jump_time=0
 while True:
     DISPLAYSURF.fill(BLACK)
+    pygame.draw.line(DISPLAYSURF, WHITE, (0, 350), (1000, 350), 4)
     for event in pygame.event.get():
         if event.type== KEYDOWN:
             if(event.key==K_UP):
@@ -51,5 +56,7 @@ while True:
         if jump_time>14:
             jump_time=0
     update(user)
+    update(user_goal)
+    update(o_goal)
     pygame.display.update()
     fpsClock.tick(FPS)
