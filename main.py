@@ -2,16 +2,20 @@ import pygame, sys, time, random
 from pygame.locals import *
 from user import user
 from goals import goals
+from ball import ball
 DISPLAYSURF = pygame.display.set_mode((1000,500), 0, 32)
 pygame.display.set_caption("ball")
 ground=350
 BLACK=(0,0,0)
 WHITE=(255,255,255)
+gravity=-10
+g_m=0
 FPS=30
 fpsClock = pygame.time.Clock()
 user=user(ground)
 user_goal=goals(ground,0,0)
 o_goal=goals(ground,950,1)
+game_ball=ball(ground)
 def update(x):
     DISPLAYSURF.blit(x.image,x.rect)
 move_up=False
@@ -55,8 +59,15 @@ while True:
             jump_time=jump_time+1
         if jump_time>14:
             jump_time=0
+    if game_ball.y<ground-49:
+        game_ball.gravity(g_m)
+        print(game_ball.y)
+    if game_ball.y>=ground-49:
+        g_m=0
+    game_ball.vert_move()
     update(user)
     update(user_goal)
     update(o_goal)
+    update(game_ball)
     pygame.display.update()
     fpsClock.tick(FPS)
