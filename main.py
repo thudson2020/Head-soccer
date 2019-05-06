@@ -9,8 +9,9 @@ ground=350
 BLACK=(0,0,0)
 WHITE=(255,255,255)
 gravity=-10
+y_v=-4
 g_m=0
-FPS=30
+FPS=60
 fpsClock = pygame.time.Clock()
 user=user(ground)
 user_goal=goals(ground,0,0)
@@ -18,6 +19,16 @@ o_goal=goals(ground,950,1)
 game_ball=ball(ground)
 def update(x):
     DISPLAYSURF.blit(x.image,x.rect)
+def vert_move():
+    global g_m, game_ball
+    game_ball.rect.y=game_ball.rect.y+4
+    g_m=g_m+1
+bounce='False'
+
+
+#def gravity(g_m):
+    #global y_v
+    #y_v=y_v+(-2)
 move_up=False
 move_down=False
 move_left=False
@@ -59,12 +70,18 @@ while True:
             jump_time=jump_time+1
         if jump_time>14:
             jump_time=0
-    if game_ball.y<ground-49:
-        game_ball.gravity(g_m)
-        print(game_ball.y)
-    if game_ball.y>=ground-49:
-        g_m=0
-    game_ball.vert_move()
+    #if game_ball.rect.y<ground-50:
+        #gravity(g_m)
+    if game_ball.rect.y<ground-50 and bounce=='False':
+        vert_move()
+    if game_ball.rect.y==ground-50:
+        g_m=g_m-2
+        bounce='True'
+    if bounce=='True':
+        game_ball.rect.y=game_ball.rect.y-4
+        g_m=g_m-1
+    if g_m==0:
+        bounce='False'
     update(user)
     update(user_goal)
     update(o_goal)
