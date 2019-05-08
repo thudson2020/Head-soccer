@@ -5,8 +5,12 @@ class ball (pygame.sprite.Sprite):
     def __init__(self,ground):
         super().__init__()
         self.x=475
-        self.y=ground-250
+        self.y=ground-50
         self.y_v=0
         self.x_v=0
         self.image=BALL
         self.rect=pygame.Rect(self.x,self.y, 50,50)
+    def right(self,v):
+        self.rect.x=self.rect.x+v
+    def left(self,v):
+        self.rect.x=self.rect.x-v

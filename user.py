@@ -13,4 +13,4 @@ class user(pygame.sprite.Sprite):
     def right(self):
         self.rect.x=self.rect.x+5
     def jump(self,y):
-        self.y=self.rect.y=306+(((y-7)**2)-49)
+        self.y=self.rect.y=306+(((y-9)**2)-81)

@@ -12,6 +12,7 @@ gravity=-10
 y_v=-4
 g_m=0
 FPS=60
+x_v=5
 fpsClock = pygame.time.Clock()
 user=user(ground)
 user_goal=goals(ground,0,0)
@@ -24,8 +25,33 @@ def vert_move():
     game_ball.rect.y=game_ball.rect.y+4
     g_m=g_m+1
 bounce='False'
-
-
+ball_move_r=False
+ball_move_l=False
+def collision(x,y):
+    global ball_move_l,ball_move_r
+    if pygame.sprite.collide_rect(x,y):
+        if user.rect.x+25<=game_ball.rect.x:
+            ball_move_r=True
+        else:
+            ball_move_l=True
+l=0
+def x_move():
+    global ball_move_l,ball_move_r,x_v,l
+    if ball_move_r==True:
+        ball_move_l=False
+        if l%5==0:
+            x_v=x_v-1
+        l=l+1
+    if ball_move_l==True:
+        ball_move_r=False
+        if l%5==0:
+            x_v=x_v-1
+        l=l+1
+    if x_v==0:
+        l=0
+        ball_move_r=False
+        ball_move_l=False
+        x_v=5
 #def gravity(g_m):
     #global y_v
     #y_v=y_v+(-2)
@@ -62,14 +88,15 @@ while True:
     if move_up==True:
         user.jump(jump_time)
         jump_time=jump_time+1
-        if jump_time>14:
+        if jump_time>18:
             jump_time=1
     if move_up==False:
         if jump_time!=0:
             user.jump(jump_time)
             jump_time=jump_time+1
-        if jump_time>14:
+        if jump_time>18:
             jump_time=0
+    '''
     #if game_ball.rect.y<ground-50:
         #gravity(g_m)
     if game_ball.rect.y<ground-50 and bounce=='False':
@@ -82,9 +109,17 @@ while True:
         g_m=g_m-1
     if g_m==0:
         bounce='False'
+    '''
     update(user)
     update(user_goal)
     update(o_goal)
     update(game_ball)
+    collision(user,game_ball)
+    x_move()
+    if ball_move_r==True:
+        game_ball.right(x_v)
+    if ball_move_l==True:
+        game_ball.left(x_v)
+
     pygame.display.update()
     fpsClock.tick(FPS)
