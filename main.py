@@ -12,7 +12,7 @@ gravity=-10
 y_v=-4
 g_m=0
 FPS=60
-x_v=5
+x_v=6
 fpsClock = pygame.time.Clock()
 user=user(ground)
 user_goal=goals(ground,0,0)
@@ -51,7 +51,7 @@ def x_move():
         l=0
         ball_move_r=False
         ball_move_l=False
-        x_v=5
+        x_v=6
 #def gravity(g_m):
     #global y_v
     #y_v=y_v+(-2)
