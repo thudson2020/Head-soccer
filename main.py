@@ -55,6 +55,15 @@ def x_move():
 #def gravity(g_m):
     #global y_v
     #y_v=y_v+(-2)
+def display_message(text, x, y,s):
+    BASICFONT= pygame.font.Font('C:\\windows\\fonts\\erasmd.ttf',s)
+    Surf= BASICFONT.render(text,1,(255,255,255))
+    Rect =Surf.get_rect()
+    Rect.topleft=(x,y)
+    DISPLAYSURF.blit(Surf,Rect)
+def goal():
+    if game_ball.rect.x>o_goal.rect.x and game_ball.rect.y>=o_goal.rect.y:
+        display_message('goal',400,230,32)
 move_up=False
 move_down=False
 move_left=False
@@ -116,10 +125,10 @@ while True:
     update(game_ball)
     collision(user,game_ball)
     x_move()
+    goal()
     if ball_move_r==True:
         game_ball.right(x_v)
     if ball_move_l==True:
         game_ball.left(x_v)
-
     pygame.display.update()
     fpsClock.tick(FPS)
