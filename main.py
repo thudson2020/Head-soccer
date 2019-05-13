@@ -55,15 +55,17 @@ def x_move():
 #def gravity(g_m):
     #global y_v
     #y_v=y_v+(-2)
-def display_message(text, x, y,s):
-    BASICFONT= pygame.font.Font('C:\\windows\\fonts\\erasmd.ttf',s)
-    Surf= BASICFONT.render(text,1,(255,255,255))
+def display_message(text, x, y):
+    BASICFONT= pygame.font.Font('freesansbold.ttf',32)
+    Surf= BASICFONT.render(text,1,(0,0,0))
     Rect =Surf.get_rect()
     Rect.topleft=(x,y)
     DISPLAYSURF.blit(Surf,Rect)
 def goal():
     if game_ball.rect.x>o_goal.rect.x and game_ball.rect.y>=o_goal.rect.y:
-        display_message('goal',400,230,32)
+        display_message('goal',400,230)
+    if game_ball.rect.x<user_goal.rect.x and game_ball.rect.y>=user_goal.rect.y:
+        display_message('goal',400,230)
 move_up=False
 move_down=False
 move_left=False
