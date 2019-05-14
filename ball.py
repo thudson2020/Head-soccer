@@ -5,7 +5,7 @@ class ball (pygame.sprite.Sprite):
     def __init__(self,ground):
         super().__init__()
         self.x=475
-        self.y=ground-50
+        self.y=ground-150
         self.y_v=0
         self.x_v=0
         self.image=BALL
@@ -14,3 +14,6 @@ class ball (pygame.sprite.Sprite):
         self.rect.x=self.rect.x+v
     def left(self,v):
         self.rect.x=self.rect.x-v
+    def vert_move(self,v):
+        if self.rect.y!=300:
+            self.rect.y=self.rect.y+v
