@@ -7,7 +7,7 @@ class user(pygame.sprite.Sprite):
         self.x=50
         self.y=ground-44
         self.image=KIRBY
-        self.rect=pygame.Rect(self.x,self.y,49,44)
+        self.rect=pygame.Rect(self.x,self.y,50,50)
     def left(self):
         self.rect.x=self.rect.x-5
     def right(self):

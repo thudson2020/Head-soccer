@@ -10,10 +10,8 @@ class ball (pygame.sprite.Sprite):
         self.x_v=0
         self.image=BALL
         self.rect=pygame.Rect(self.x,self.y, 50,50)
-    def right(self,v):
+    def horz_move(self,v):
         self.rect.x=self.rect.x+v
-    def left(self,v):
-        self.rect.x=self.rect.x-v
     def vert_move(self,v):
         if self.rect.y!=300:
             self.rect.y=self.rect.y+v

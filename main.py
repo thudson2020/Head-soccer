@@ -9,9 +9,8 @@ pygame.display.set_caption("ball")
 ground=350
 BLACK=(0,0,0)
 WHITE=(255,255,255)
-g_m=0
 FPS=60
-x_v=10
+x_v=0
 fpsClock = pygame.time.Clock()
 user=user(ground)
 user_goal=goals(ground,0,0)
@@ -19,67 +18,77 @@ o_goal=goals(ground,950,1)
 game_ball=ball(ground)
 def update(x):
     DISPLAYSURF.blit(x.image,x.rect)
-def vert_move():
-    global g_m, game_ball
-    game_ball.rect.y=game_ball.rect.y+4
-    g_m=g_m+1
-bounce='False'
-ball_move_r=False
-ball_move_l=False
-jump_hit=False
-ground_pinch=False
+y_v=0
+collision=False
+wait=0
 def collision(x,y):
-    global ball_move_l,ball_move_r,jump_hit,y_v
-    if pygame.sprite.collide_rect(x,y):
-        if user.rect.x+25<=game_ball.rect.x:
-            ball_move_r=True
-        else:
-            ball_move_l=True
-        if user.rect.y+25>=game_ball.rect.y:
-            jump_hit=True
-        if user.rect.y-25>game_ball.rect.y:
-            if game_ball.rect.y!=ground-50:
-                y_v=y_v+2
-            else:
-                y_v=y_v+5
-
+    global x_v, y_v, wait
+    if pygame.sprite.collide_rect(x,y) and wait==0:
+        # y angle
+        if user.rect.x+25>game_ball.rect.x+5:
+            x_v=-5
+        elif user.rect.x+25<= game_ball.rect.x+5 and user.rect.x> game_ball.rect.x+10:
+            x_v=-4
+        elif user.rect.x+25<= game_ball.rect.x+10 and user.rect.x> game_ball.rect.x+15:
+            x_v=-3
+        elif user.rect.x+25<= game_ball.rect.x+15 and user.rect.x> game_ball.rect.x+20:
+            x_v=-2
+        elif user.rect.x+25<= game_ball.rect.x+20 and user.rect.x> game_ball.rect.x+23:
+            x_v=-1
+        elif user.rect.x+25<= game_ball.rect.x+23 and user.rect.x> game_ball.rect.x+27:
+            x_v=0
+        elif user.rect.x+25<= game_ball.rect.x+27 and user.rect.x> game_ball.rect.x+30:
+            x_v=1
+        elif user.rect.x+25<= game_ball.rect.x+30 and user.rect.x> game_ball.rect.x+35:
+            x_v=2
+        elif user.rect.x+25<= game_ball.rect.x+35 and user.rect.x> game_ball.rect.x+40:
+            x_v=3
+        elif user.rect.x+25<= game_ball.rect.x+40 and user.rect.x> game_ball.rect.x+45:
+            x_v=4
+        elif user.rect.x+25<= game_ball.rect.x+45:
+            x_v=5
+        # x angle
+        if user.rect.y+22<game_ball.rect.y+5:
+            y_v=y_v-5
+        elif user.rect.y+22>=game_ball.rect.y+5 and user.rect.y<game_ball.rect.y+10:
+            y_v=y_v-4
+        elif user.rect.y+22>=game_ball.rect.y+10 and user.rect.y<game_ball.rect.y+15:
+            y_v=y_v-3
+        elif user.rect.y+22>=game_ball.rect.y+15 and user.rect.y<game_ball.rect.y+20:
+            y_v=y_v-2
+        elif user.rect.y+22>=game_ball.rect.y+20 and user.rect.y<game_ball.rect.y+23:
+            y_v=y_v-1
+        elif user.rect.y+22>=game_ball.rect.y+23 and user.rect.y<game_ball.rect.y+27:
+            y_v=y_v+0
+        elif user.rect.y+22>=game_ball.rect.y+27 and user.rect.y<game_ball.rect.y+30:
+            y_v=y_v+1
+        elif user.rect.y+22>=game_ball.rect.y+30 and user.rect.y<game_ball.rect.y+35:
+            y_v=y_v+2
+        elif user.rect.y+22>=game_ball.rect.y+35 and user.rect.y<game_ball.rect.y+40:
+            y_v=y_v+3
+        elif user.rect.y+22>=game_ball.rect.y+40 and user.rect.y<game_ball.rect.y+45:
+            y_v=y_v+4
+        elif user.rect.y+22>=game_ball.rect.y+45:
+            y_v=y_v+5
+        wait=5
 l=0
 def x_move():
-    global ball_move_l,ball_move_r,x_v,l
-    if ball_move_r==True:
-        ball_move_l=False
-        if l%5==0:
-            x_v=x_v-1
-        l=l+1
-    if ball_move_l==True:
-        ball_move_r=False
-        if l%5==0:
-            x_v=x_v-1
-        l=l+1
-    if x_v==0:
-        l=0
-        ball_move_r=False
-        ball_move_l=False
-        x_v=10
+    global x_v
+    game_ball.horz_move(x_v)
 def check_wall():
-    global ball_move_l,ball_move_r
-    if ball_move_r==True and game_ball.rect.x>=950:
-        ball_move_r= False
-        ball_move_l= True
-    if ball_move_l==True and game_ball.rect.x<=0:
-        ball_move_l=False
-        ball_move_r=True
+    global x_v
+    if x_v>0 and game_ball.rect.x>=950:
+        x_v=-x_v
+    if x_v<0 and game_ball.rect.x<=0:
+        x_v=-x_v
 y_v=0
 def ball_gravity():
     global y_v
     y_v=y_v+1
 def total_y_move():
-    global y_v,jump_hit
+    global y_v
     if game_ball.rect.y+50>=ground and y_v>0:
         y_v=(-y_v)+2
-    if jump_hit==True:
-        y_v=-10
-        jump_hit=False
     game_ball.vert_move(y_v)
     ball_gravity()
 def display_message(text, x, y, s):
@@ -146,13 +155,11 @@ while True:
     check_wall()
     goal()
     total_y_move()
+    if wait>0:
+        wait=wait-1
     if display_o_goal==True:
         display_message('opponent goal',420,250, 32)
     if display_u_goal==True:
         display_message('user goal',430,250,32)
-    if ball_move_r==True:
-        game_ball.right(x_v)
-    if ball_move_l==True:
-        game_ball.left(x_v)
     pygame.display.update()
     fpsClock.tick(FPS)
