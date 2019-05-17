@@ -3,6 +3,7 @@ from pygame.locals import *
 from user import user
 from goals import goals
 from ball import ball
+from foot import foot
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((1000,500), 0, 32)
 pygame.display.set_caption("ball")
@@ -16,6 +17,7 @@ user=user(ground)
 user_goal=goals(ground,0,0)
 o_goal=goals(ground,950,1)
 game_ball=ball(ground)
+user_foot=foot(user.rect.x,user.rect.y)
 def update(x):
     DISPLAYSURF.blit(x.image,x.rect)
 y_v=0
@@ -109,6 +111,7 @@ move_up=False
 move_down=False
 move_left=False
 move_right=False
+foot_rotate= False
 jump_time=0
 while True:
     DISPLAYSURF.fill(BLACK)
@@ -121,6 +124,8 @@ while True:
                 move_left=True
             if event.key == K_RIGHT:
                 move_right=True
+            if event.key == K_SPACE:
+                foot_rotate=True
         if event.type==KEYUP:
             if event.key == K_UP:
                 move_up=False
@@ -128,6 +133,8 @@ while True:
                 move_left=False
             if event.key == K_RIGHT:
                 move_right=False
+            if event.key == K_SPACE:
+                foot_rotate=False
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
@@ -146,10 +153,22 @@ while True:
             jump_time=jump_time+1
         if jump_time>18:
             jump_time=0
+    foot_r_x=0
+    foot_r_y=0
+    if foot_rotate==True:
+        while foot_r_x<=20:
+            foot_r_x=foot_r_x+1
+            user_foot.rotation(foot_r_x,foot_r_y)
+    if foot_rotate==False:
+        while foot_r_x!=0:
+            foot_r_x=foot_r_x-1
+            user_foot.rotation(foot_r_x,foot_r_y)
     update(user)
     update(user_goal)
     update(o_goal)
     update(game_ball)
+    user_foot.attatch(user.rect.x,user.rect.y,foot_r_x,foot_r_y)
+    update(user_foot)
     collision(user,game_ball)
     x_move()
     check_wall()

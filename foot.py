@@ -1,7 +1,7 @@
 import pygame, sys, time, random, math
 from pygame.locals import *
 SHOE=pygame.image.load('shoe.png')
-class user(pygame.sprite.Sprite):
+class foot(pygame.sprite.Sprite):
     def __init__(self, x,y):
         super().__init__()
         self.x=x
@@ -9,8 +9,9 @@ class user(pygame.sprite.Sprite):
         self.image=SHOE
         self.rotation=0
         self.rect=pygame.Rect(self.x,self.y,18,10)
-    def attatch(self,x,y):
-        self.rect.x=x+self.rotation
-        self.rect.y=y+self.rotation
+    def attatch(self,x,y,xx,yy):
+        self.rect.x=x+xx
+        self.rect.y=y+yy
     def rotation(self,x,y):
-        -abs(sqrt(y))=x+25
+        y=x+25
+        y=-abs(sqrt(y))
