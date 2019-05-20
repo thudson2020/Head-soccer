@@ -72,7 +72,20 @@ def collision(x,y):
             y_v=y_v+4
         elif user.rect.y+22>=game_ball.rect.y+45:
             y_v=y_v+5
-        wait=5
+        wait=3
+def foot_collision(f,b):
+    global y_v, x_v, wait
+    if pygame.sprite.collide_rect(f,b) and wait==0:
+        if f.rect.y>b.rect.y-20:
+            y_v=-5
+            x_v=x_v+2
+        elif f.rect.y<=b.rect.y-20 and f.rect.y>b.rect.y-30:
+            x_v=x_v+5
+        elif f.rect.y<b.rect.y-30:
+            y_v=y_v+5
+            x_v=x_v+2
+        wait=3
+
 l=0
 def x_move():
     global x_v
@@ -158,17 +171,18 @@ while True:
     if foot_rotate==True:
         while foot_r_x<=20:
             foot_r_x=foot_r_x+1
-            user_foot.rotation(foot_r_x,foot_r_y)
+            user_foot.rotation_out(foot_r_x,foot_r_y)
     if foot_rotate==False:
         while foot_r_x!=0:
             foot_r_x=foot_r_x-1
-            user_foot.rotation(foot_r_x,foot_r_y)
+            user_foot.rotation_back(foot_r_x,foot_r_y)
     update(user)
     update(user_goal)
     update(o_goal)
     update(game_ball)
     user_foot.attatch(user.rect.x,user.rect.y,foot_r_x,foot_r_y)
     update(user_foot)
+    foot_collision(user_foot,game_ball)
     collision(user,game_ball)
     x_move()
     check_wall()
