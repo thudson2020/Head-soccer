@@ -85,7 +85,16 @@ def foot_collision(f,b):
             y_v=y_v+5
             x_v=x_v+2
         wait=3
-
+goal_bounce=False
+def cross_bar(b,g):
+    global y_v, x_v, goal_bounce
+    if pygame.sprite.collide_rect(b,g):
+        if b.rect.y<=g.rect.y+5:
+            y_v=-(y_v)
+        if b.rect.x>g.rect.x+10:
+            if b.rect.y<=g.rect.y+5:
+                x_v=-(x_v)
+        goal_bounce=True
 l=0
 def x_move():
     global x_v
@@ -99,11 +108,12 @@ def check_wall():
 y_v=0
 def ball_gravity():
     global y_v
-    y_v=y_v+1
+    if game_ball.rect.y!=300:
+        y_v=y_v+1
 def total_y_move():
     global y_v
     if game_ball.rect.y+50>=ground and y_v>0:
-        y_v=(-y_v)+2
+        y_v=(-y_v)+1
     game_ball.vert_move(y_v)
     ball_gravity()
 def display_message(text, x, y, s):
@@ -115,11 +125,13 @@ def display_message(text, x, y, s):
 display_u_goal=False
 display_o_goal=False
 def goal():
-    global display_u_goal,display_o_goal
-    if game_ball.rect.x>=925 and game_ball.rect.y>=o_goal.rect.y:
+    global display_u_goal,display_o_goal, goal_bounce
+    if game_ball.rect.x>=925 and game_ball.rect.y>=o_goal.rect.y and goal_bounce==False:
         display_u_goal=True
-    if game_ball.rect.x<=25 and game_ball.rect.y>=user_goal.rect.y:
+    if game_ball.rect.x<=25 and game_ball.rect.y>=user_goal.rect.y and goal_bounce==False:
         display_o_goal=True
+    if goal_bounce==True:
+        goal_bounce=False
 move_up=False
 move_down=False
 move_left=False
@@ -184,6 +196,8 @@ while True:
     update(user_foot)
     foot_collision(user_foot,game_ball)
     collision(user,game_ball)
+    cross_bar(game_ball,user_goal)
+    cross_bar(game_ball,o_goal)
     x_move()
     check_wall()
     goal()

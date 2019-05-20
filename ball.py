@@ -13,5 +13,4 @@ class ball (pygame.sprite.Sprite):
     def horz_move(self,v):
         self.rect.x=self.rect.x+v
     def vert_move(self,v):
-        if self.rect.y!=300:
-            self.rect.y=self.rect.y+v
+        self.rect.y=self.rect.y+v
