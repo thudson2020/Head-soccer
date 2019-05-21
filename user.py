@@ -1,10 +1,10 @@
 import pygame, sys, time, random
 from pygame.locals import *
 KIRBY=pygame.image.load('kirby_normal.png')
-class user(pygame.sprite.Sprite):
-    def __init__(self, ground):
+class character(pygame.sprite.Sprite):
+    def __init__(self, ground,x):
         super().__init__()
-        self.x=50
+        self.x=x
         self.y=ground-44
         self.image=KIRBY
         self.rect=pygame.Rect(self.x,self.y,50,50)
