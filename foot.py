@@ -15,7 +15,7 @@ class foot(pygame.sprite.Sprite):
     def rotation_out(self,x,y):
         y=y+5
         x=x+5
-    def roatation_back(self,x,y):
+    def rotation_back(self,x,y):
         x=x-5
         y=y-5
     def attatch_two():

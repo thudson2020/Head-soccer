@@ -4,6 +4,7 @@ from user import character
 from goals import goals
 from ball import ball
 from foot import foot
+from o_foot import o__foot
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((1000,500), 0, 32)
 pygame.display.set_caption("ball")
@@ -19,7 +20,7 @@ user_goal=goals(ground,0,0)
 o_goal=goals(ground,950,1)
 game_ball=ball(ground)
 user_foot=foot(user.rect.x,user.rect.y)
-o_foot=foot(opponent.rect.x,opponent.rect.y)
+o_foot=o__foot(opponent.rect.x,opponent.rect.y)
 def update(x):
     DISPLAYSURF.blit(x.image,x.rect)
 y_v=0
@@ -29,50 +30,50 @@ def collision(x,y):
     global x_v, y_v, wait
     if pygame.sprite.collide_rect(x,y) and wait==0:
         # y angle
-        if user.rect.x+25>game_ball.rect.x+5:
+        if x.rect.x+25>game_ball.rect.x+5:
             x_v=-5
-        elif user.rect.x+25<= game_ball.rect.x+5 and user.rect.x> game_ball.rect.x+10:
+        elif x.rect.x+25<= game_ball.rect.x+5 and x.rect.x> game_ball.rect.x+10:
             x_v=-4
-        elif user.rect.x+25<= game_ball.rect.x+10 and user.rect.x> game_ball.rect.x+15:
+        elif x.rect.x+25<= game_ball.rect.x+10 and x.rect.x> game_ball.rect.x+15:
             x_v=-3
-        elif user.rect.x+25<= game_ball.rect.x+15 and user.rect.x> game_ball.rect.x+20:
+        elif x.rect.x+25<= game_ball.rect.x+15 and x.rect.x> game_ball.rect.x+20:
             x_v=-2
-        elif user.rect.x+25<= game_ball.rect.x+20 and user.rect.x> game_ball.rect.x+23:
+        elif x.rect.x+25<= game_ball.rect.x+20 and x.rect.x> game_ball.rect.x+23:
             x_v=-1
-        elif user.rect.x+25<= game_ball.rect.x+23 and user.rect.x> game_ball.rect.x+27:
+        elif x.rect.x+25<= game_ball.rect.x+23 and x.rect.x> game_ball.rect.x+27:
             x_v=0
-        elif user.rect.x+25<= game_ball.rect.x+27 and user.rect.x> game_ball.rect.x+30:
+        elif x.rect.x+25<= game_ball.rect.x+27 and x.rect.x> game_ball.rect.x+30:
             x_v=1
-        elif user.rect.x+25<= game_ball.rect.x+30 and user.rect.x> game_ball.rect.x+35:
+        elif x.rect.x+25<= game_ball.rect.x+30 and x.rect.x> game_ball.rect.x+35:
             x_v=2
-        elif user.rect.x+25<= game_ball.rect.x+35 and user.rect.x> game_ball.rect.x+40:
+        elif x.rect.x+25<= game_ball.rect.x+35 and x.rect.x> game_ball.rect.x+40:
             x_v=3
-        elif user.rect.x+25<= game_ball.rect.x+40 and user.rect.x> game_ball.rect.x+45:
+        elif x.rect.x+25<= game_ball.rect.x+40 and x.rect.x> game_ball.rect.x+45:
             x_v=4
-        elif user.rect.x+25<= game_ball.rect.x+45:
+        elif x.rect.x+25<= game_ball.rect.x+45:
             x_v=5
         # x angle
-        if user.rect.y+22<game_ball.rect.y+5:
+        if x.rect.y+22<game_ball.rect.y+5:
             y_v=y_v-5
-        elif user.rect.y+22>=game_ball.rect.y+5 and user.rect.y<game_ball.rect.y+10:
+        elif x.rect.y+22>=game_ball.rect.y+5 and x.rect.y<game_ball.rect.y+10:
             y_v=y_v-4
-        elif user.rect.y+22>=game_ball.rect.y+10 and user.rect.y<game_ball.rect.y+15:
+        elif x.rect.y+22>=game_ball.rect.y+10 and x.rect.y<game_ball.rect.y+15:
             y_v=y_v-3
-        elif user.rect.y+22>=game_ball.rect.y+15 and user.rect.y<game_ball.rect.y+20:
+        elif x.rect.y+22>=game_ball.rect.y+15 and x.rect.y<game_ball.rect.y+20:
             y_v=y_v-2
-        elif user.rect.y+22>=game_ball.rect.y+20 and user.rect.y<game_ball.rect.y+23:
+        elif x.rect.y+22>=game_ball.rect.y+20 and x.rect.y<game_ball.rect.y+23:
             y_v=y_v-1
-        elif user.rect.y+22>=game_ball.rect.y+23 and user.rect.y<game_ball.rect.y+27:
+        elif x.rect.y+22>=game_ball.rect.y+23 and x.rect.y<game_ball.rect.y+27:
             y_v=y_v+0
-        elif user.rect.y+22>=game_ball.rect.y+27 and user.rect.y<game_ball.rect.y+30:
+        elif x.rect.y+22>=game_ball.rect.y+27 and x.rect.y<game_ball.rect.y+30:
             y_v=y_v+1
-        elif user.rect.y+22>=game_ball.rect.y+30 and user.rect.y<game_ball.rect.y+35:
+        elif x.rect.y+22>=game_ball.rect.y+30 and x.rect.y<game_ball.rect.y+35:
             y_v=y_v+2
-        elif user.rect.y+22>=game_ball.rect.y+35 and user.rect.y<game_ball.rect.y+40:
+        elif x.rect.y+22>=game_ball.rect.y+35 and x.rect.y<game_ball.rect.y+40:
             y_v=y_v+3
-        elif user.rect.y+22>=game_ball.rect.y+40 and user.rect.y<game_ball.rect.y+45:
+        elif x.rect.y+22>=game_ball.rect.y+40 and x.rect.y<game_ball.rect.y+45:
             y_v=y_v+4
-        elif user.rect.y+22>=game_ball.rect.y+45:
+        elif x.rect.y+22>=game_ball.rect.y+45:
             y_v=y_v+5
         wait=3
 def foot_collision(f,b):
@@ -144,6 +145,12 @@ move_left=False
 move_right=False
 foot_rotate= False
 jump_time=0
+o_move_up=False
+o_move_down=False
+o_move_left=False
+o_move_right=False
+o_foot_rotate= False
+o_jump_time=0
 PLAY=False
 wait_gs=False
 wait_gt=0
@@ -153,32 +160,50 @@ while True:
     for event in pygame.event.get():
         u_foot_rx=0
         u_foot_ry=0
+        o_foot_rx=0
+        o_foot_ry=0
         if PLAY==True:
             if event.type== KEYDOWN:
-                if(event.key==K_UP):
+                if(event.key==K_w):
                     move_up=True
-                if event.key == K_LEFT:
+                if event.key == K_a:
                     move_left=True
-                if event.key == K_RIGHT:
+                if event.key == K_d:
                     move_right=True
                 if event.key == K_SPACE:
                     foot_rotate=True
-            if event.type==KEYUP:
-                if event.key == K_UP:
-                    move_up=False
+                if(event.key==K_UP):
+                    o_move_up=True
                 if event.key == K_LEFT:
-                    move_left=False
+                    o_move_left=True
                 if event.key == K_RIGHT:
+                    o_move_right=True
+                if event.key == K_p:
+                    o_foot_rotate=True
+            if event.type==KEYUP:
+                if event.key == K_w:
+                    move_up=False
+                if event.key == K_a:
+                    move_left=False
+                if event.key == K_d:
                     move_right=False
                 if event.key == K_SPACE:
                     foot_rotate=False
+                if event.key == K_UP:
+                    o_move_up=False
+                if event.key == K_LEFT:
+                    o_move_left=False
+                if event.key == K_RIGHT:
+                    o_move_right=False
+                if event.key == K_p:
+                    o_foot_rotate=False
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
     if PLAY==True:
-        if move_left==True:
+        if move_left==True and user.rect.x>=0:
             user.left()
-        if move_right==True:
+        if move_right==True and user.rect.x<=950:
             user.right()
         if move_up==True:
             user.jump(jump_time)
@@ -195,12 +220,33 @@ while True:
             while u_foot_rx<=20:
                 u_foot_rx=u_foot_rx+1
                 user_foot.rotation_out(u_foot_rx,u_foot_ry)
+        if o_move_left==True and opponent.rect.x>=0:
+            opponent.left()
+        if o_move_right==True and opponent.rect.x<=950:
+            opponent.right()
+        if o_move_up==True:
+            opponent.jump(o_jump_time)
+            o_jump_time=o_jump_time+1
+            if o_jump_time>18:
+                o_jump_time=1
+        if o_move_up==False:
+            if o_jump_time!=0:
+                opponent.jump(o_jump_time)
+                o_jump_time=o_jump_time+1
+            if o_jump_time>18:
+                o_jump_time=0
+        if o_foot_rotate==True:
+            o_foot.rotation_out(opponent.rect.x,opponent.rect.y)
         if foot_rotate==False:
             while u_foot_rx!=0:
                 u_foot_rx=u_foot_rx-1
-                user_foot.rotation_back(u_foot_rx,u_foot_ry)
+                u_foot.rotation_back(u_foot_rx,u_foot_ry)
+        if o_foot_rotate==False:
+            o_foot.attatch(opponent.rect.x,opponent.rect.y)
         foot_collision(user_foot,game_ball)
+        foot_collision(o_foot,game_ball)
         collision(user,game_ball)
+        collision(opponent,game_ball)
         cross_bar(game_ball,user_goal,0)
         cross_bar(game_ball,o_goal,1)
         x_move()
@@ -229,7 +275,11 @@ while True:
             move_left=False
             move_right=False
             foot_rotate=False
-            display_o_goal=False
+            o_move_up=False
+            o_move_left=False
+            o_move_right=False
+            o_foot_rotate=False
+            o_display_o_goal=False
             display_u_goal=False
             user.rect.x=50
             user.rect.y=ground-44
@@ -237,6 +287,7 @@ while True:
             o_goal=goals(ground,950,1)
             game_ball=ball(ground)
             user_foot=foot(user.rect.x,user.rect.y)
+            o_foot=o__foot(opponent.rect.x,opponent.rect.y)
         if wait_gt==70:
             PLAY=True
             wait_gt=0
@@ -248,7 +299,6 @@ while True:
     update(game_ball)
     user_foot.attatch(user.rect.x,user.rect.y,u_foot_rx,u_foot_ry)
     update(user_foot)
-    o_foot.attatch(opponent.rect.x,opponent.rect.y,u_foot_rx,u_foot_ry)
     update(o_foot)
     display_score()
     pygame.display.update()
