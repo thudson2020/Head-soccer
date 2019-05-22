@@ -14,13 +14,7 @@ WHITE=(255,255,255)
 FPS=60
 x_v=0
 fpsClock = pygame.time.Clock()
-user=character(ground,50)
-opponent=character(ground, 900)
-user_goal=goals(ground,0,0)
-o_goal=goals(ground,950,1)
-game_ball=ball(ground)
-user_foot=foot(user.rect.x,user.rect.y)
-o_foot=o__foot(opponent.rect.x,opponent.rect.y)
+
 def update(x):
     DISPLAYSURF.blit(x.image,x.rect)
 y_v=0
@@ -76,17 +70,17 @@ def collision(x,y):
         elif x.rect.y+22>=game_ball.rect.y+45:
             y_v=y_v+5
         wait=3
-def foot_collision(f,b):
+def foot_collision(f,b,m):
     global y_v, x_v, wait
     if pygame.sprite.collide_rect(f,b) and wait==0:
         if f.rect.y>b.rect.y-20:
-            y_v=-5
-            x_v=x_v+2
+            y_v=-(5*m)
+            x_v=x_v+(2*m)
         elif f.rect.y<=b.rect.y-20 and f.rect.y>b.rect.y-30:
-            x_v=x_v+5
+            x_v=x_v+(5*m)
         elif f.rect.y<b.rect.y-30:
-            y_v=y_v+5
-            x_v=x_v+2
+            y_v=y_v+(5*m)
+            x_v=x_v+(2*m)
         wait=3
 goal_bounce=False
 display_u_goal=False
@@ -154,15 +148,41 @@ o_jump_time=0
 PLAY=False
 wait_gs=False
 wait_gt=0
+menue=True
+rule=False
+control=False
 while True:
     DISPLAYSURF.fill(BLACK)
-    pygame.draw.line(DISPLAYSURF, WHITE, (0, 350), (1000, 350), 4)
+    if menue==True:
+        display_message("HEADSOCCER",265,125,64)
+        display_message("Play",450,200,42)
+        display_message("Rules", 434,250,42)
+        display_message("Controls", 407,300,42)
+    if menue==False:
+        pygame.draw.line(DISPLAYSURF, WHITE, (0, 350), (1000, 350), 4)
     for event in pygame.event.get():
         u_foot_rx=0
         u_foot_ry=0
         o_foot_rx=0
         o_foot_ry=0
-        if PLAY==True:
+        if menue==True:
+            if event.type == MOUSEBUTTONDOWN:
+                position=pygame.mouse.get_pos()
+                if position[0]>=450 and position[0]<=550 and position[1]>=200 and position[1]<=242:
+                    PLAY=True
+                    menue=False
+                    user=character(ground,50)
+                    opponent=character(ground, 900)
+                    user_goal=goals(ground,0,0)
+                    o_goal=goals(ground,950,1)
+                    game_ball=ball(ground)
+                if position[0]>=434 and position[0]<=466 and position[1]>=250 and position[1]<=292:
+                    rule=True
+                    menue=False
+                if position[0]>=407 and position[0]<=493 and position[1]>=300 and position[1]<=342:
+                    control=True
+                    menue=False
+        if PLAY==True and menue==False:
             if event.type== KEYDOWN:
                 if(event.key==K_w):
                     move_up=True
@@ -200,7 +220,9 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-    if PLAY==True:
+    if PLAY==True and menue==False:
+        user_foot=foot(user.rect.x,user.rect.y)
+        o_foot=o__foot(opponent.rect.x,opponent.rect.y)
         if move_left==True and user.rect.x>=0:
             user.left()
         if move_right==True and user.rect.x<=950:
@@ -243,8 +265,8 @@ while True:
                 u_foot.rotation_back(u_foot_rx,u_foot_ry)
         if o_foot_rotate==False:
             o_foot.attatch(opponent.rect.x,opponent.rect.y)
-        foot_collision(user_foot,game_ball)
-        foot_collision(o_foot,game_ball)
+        foot_collision(user_foot,game_ball,1)
+        foot_collision(o_foot,game_ball,-1)
         collision(user,game_ball)
         collision(opponent,game_ball)
         cross_bar(game_ball,user_goal,0)
@@ -262,7 +284,7 @@ while True:
             wait_gs=True
         if wait_gs==True:
             PLAY=False
-    if PLAY==False:
+    if PLAY==False and menue==False:
         if display_o_goal==True:
             display_message('opponent goal',420,250, 32)
         if display_u_goal==True:
@@ -271,6 +293,7 @@ while True:
         y_v=0
         wait_gt=wait_gt+1
         if wait_gt==50:
+
             move_up=False
             move_left=False
             move_right=False
@@ -281,6 +304,10 @@ while True:
             o_foot_rotate=False
             o_display_o_goal=False
             display_u_goal=False
+            if user_score==5:
+                display_message("Player 1 wins", 400, 150, 32)
+            if opponent_score==5:
+                display_message("Player 2 wins", 400, 150, 32)
             user.rect.x=50
             user.rect.y=ground-44
             user_goal=goals(ground,0,0)
@@ -292,14 +319,27 @@ while True:
             PLAY=True
             wait_gt=0
             wait_gs=False
-    update(user)
-    update(opponent)
-    update(user_goal)
-    update(o_goal)
-    update(game_ball)
-    user_foot.attatch(user.rect.x,user.rect.y,u_foot_rx,u_foot_ry)
-    update(user_foot)
-    update(o_foot)
-    display_score()
+            if user_score==5 or opponent_score==5:
+                user_score=0
+                opponent_score=0
+                menue=True
+                PLAY=False
+                sprite.kill(user)
+                sprite.kill(opponent)
+                sprite.kill(foot)
+                sprite.kill(o_foot)
+                sprite.kill(user_goal)
+                sprite.kill(o_goal)
+                sprite.kill(game_ball)
+    if menue==False:
+        update(user)
+        update(opponent)
+        update(user_goal)
+        update(o_goal)
+        update(game_ball)
+        user_foot.attatch(user.rect.x,user.rect.y,u_foot_rx,u_foot_ry)
+        update(user_foot)
+        update(o_foot)
+        display_score()
     pygame.display.update()
     fpsClock.tick(FPS)
