@@ -10,6 +10,7 @@ class ball (pygame.sprite.Sprite):
         self.x_v=0
         self.image=BALL
         self.rect=pygame.Rect(self.x,self.y, 50,50)
+    #so the ball has more fluid movements and doesn't snap between velocities
     def horz_move(self,v):
         self.rect.x=self.rect.x+v
     def vert_move(self,v):
